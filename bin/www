@@ -16,20 +16,18 @@ var config = require('../config/config');
 var connect = function () {
     var options = { server: { socketOptions: { keepAlive: 1 } } };
     mongoose.connect(config.DB_URL, options);
-    console.log(config.DB_URL);
 };
 connect();
-
+mongoose.connection.on('connected', function(){
+  console.log("Database connected successful");
+});
 mongoose.connection.on('error', console.log);
-//mongoose.connection.on('disconnected', connect);
 
-
- /**
- * Get port from environment and store in Express.
- */
+/**
+* Get port from environment and store in Express.
+*/
 
 var port = normalizePort(process.env.NODE_PORT || '3000');
-console.log(JSON.stringify(process.env.NODE_PORT));
 app.set('port', port);
 
 /**
@@ -104,4 +102,5 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
+  console.log("Application is listening on "+ bind);
 }

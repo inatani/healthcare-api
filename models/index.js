@@ -1,5 +1,5 @@
 var accessModels = {
-  user :require("./user")
+  User :require("./user")
 };
 
 module.exports = accessModels;

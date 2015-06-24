@@ -19,7 +19,7 @@ var User_ = new mongoose.Schema({
   secondaryPhoneNumber:String,
   password:String,
   userID:String,
-  memberID:String,
+  memberID:{type:String,unique:true},
   mappingID:String,
   relationship:String
 });
