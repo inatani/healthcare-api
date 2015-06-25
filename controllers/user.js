@@ -1,12 +1,11 @@
 var Models = require('../models');
 var mongoose = require('mongoose');
-
+var createCallback = require('../utilities/callbacks');
 var UserController_ = {
     createUser : function (req, res) {
       //check if memberID is already exists and insert
       var register = req.body;
-      var generatedMemberID = Math.floor(Math.random()*899999+100000);
-      register.memberID = generatedMemberID;
+      register.memberID  = Math.floor(Math.random()*899999+100000);
       Models.User.findOne({memberID:register.memberID}, function (err, response){
         if (err) throw err;
         if(response){
@@ -19,7 +18,6 @@ var UserController_ = {
             console.log("Create User Result "+JSON.stringify(response));
             //res.status(200).send({status:"success"});
         });
-
       });
     },
     getUser : function (req, res) {
@@ -49,9 +47,10 @@ var UserController_ = {
       });
     },
     registerUser : function(req, res){
-      UserController_.createUser(req);
-      console.log("Registration successful!!");
-      res.status(200).send({record:"success"});
+        var register = req.body;
+        register.memberID  = Math.floor(Math.random()*899999+100000);
+        var user = new Models.User(register);
+        user.save(new createCallback(req, res, "User").insert());
     }
 };
 
